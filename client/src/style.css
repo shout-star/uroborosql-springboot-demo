@@ -1,0 +1,126 @@
+/* common */
+.right {
+  float: right;
+}
+
+/* div table styles */
+div.table {
+  border: 1px solid #1C6EA4;
+  background-color: #FFFFFF;
+  width: 100%;
+  text-align: left;
+  border-collapse: collapse;
+}
+
+.divTable.table .divTableCell, .divTable.table .divTableHead {
+  border: 1px solid #AAAAAA;
+  padding: 3px 2px;
+}
+
+.divTable.table .divTableBody .divTableCell {
+  font-size: 13px;
+}
+
+.divTable.table .divTableRow:nth-child(even) {
+  background: #E3F2FD;
+}
+
+.divTable.table .divTableHeading {
+  background: #2196F3;
+  border-bottom: 2px solid #444444;
+}
+
+.divTable.table .divTableHeading .divTableHead {
+  font-size: 15px;
+  font-weight: bold;
+  color: #FFFFFF;
+  text-align: left;
+  border-left: 2px solid #D0E4F5;
+}
+
+.divTable.table .divTableHeading .divTableHead:first-child {
+  border-left: none;
+}
+
+.table .tableFootStyle {
+  font-size: 14px;
+}
+
+.table .tableFootStyle .links {
+  text-align: right;
+}
+
+.table .tableFootStyle .links a {
+  display: inline-block;
+  background: #1C6EA4;
+  color: #FFFFFF;
+  padding: 2px 8px;
+  border-radius: 5px;
+}
+
+.table.outerTableFooter {
+  border-top: none;
+}
+
+.table.outerTableFooter .tableFootStyle {
+  padding: 3px 5px;
+}
+
+/* DivTable.com */
+.divTable {
+  display: table;
+}
+
+.divTableRow {
+  display: table-row;
+}
+
+.divTableHeading {
+  display: table-header-group;
+}
+
+.divTableCell, .divTableHead {
+  display: table-cell;
+}
+
+.divTableHeading {
+  display: table-header-group;
+}
+
+.divTableFoot {
+  display: table-footer-group;
+}
+
+.divTableBody {
+  display: table-row-group;
+}
+
+/* v-tooltip */
+.tooltip {
+  display: block !important;
+  padding: 4px;
+  z-index: 10000;
+}
+
+.tooltip .tooltip-inner {
+  background: black;
+  color: white;
+  border-radius: 16px;
+  padding: 5px 10px 4px;
+}
+
+.tooltip tooltip-arrow {
+  display: none;
+}
+
+.tooltip[aria-hidden='true'] {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity .15s, visibility .15s;
+}
+
+.tooltip[aria-hidden='false'] {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity .15s;
+}

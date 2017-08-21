@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+
+    <logger name="jp.co.future.uroborosql.AbstractAgent" level="DEBUG" />
+    <logger name="jp.co.future.uroborosql.SqlAgentImpl" level="DEBUG" />
+    <logger name="jp.co.future.uroborosql.filter.DebugSqlFilter" level="DEBUG" />
+
+</configuration>

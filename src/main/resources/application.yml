@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:h2:file:./target/db/petclinic;AUTOCOMMIT=FALSE
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+    name: jdbc/petclinic
+    jndi-name: jdbc/petclinic
+    tomcat:
+      default-auto-commit: false
+server:
+  port: 8090
+
