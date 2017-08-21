@@ -15,6 +15,11 @@ import org.springframework.jndi.JndiObjectFactoryBean;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+/**
+ * Spring configuration
+ *
+ * @author Kenichi Hoshi
+ */
 @Configuration
 @PropertySource("classpath:application.yml")
 public class AppConfig {

@@ -6,6 +6,12 @@ import org.hibernate.validator.constraints.NotEmpty;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Size;
 
+/**
+ * Owner model
+ *
+ * @author Kenichi Hoshi
+ * @see jp.co.future.uroborosql.springboot.demo.models.BaseModel
+ */
 @Table(name = "OWNERS")
 public class Owner extends BaseModel {
 

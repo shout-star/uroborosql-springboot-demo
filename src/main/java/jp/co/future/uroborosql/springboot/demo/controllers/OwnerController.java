@@ -13,11 +13,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * OwnerController
+ *
+ * @author Kenichi Hoshi
+ * @see jp.co.future.uroborosql.springboot.demo.controllers.BaseController
+ */
 @RestController
 @CrossOrigin
 @RequestMapping("/api/owners")
 public class OwnerController extends BaseController {
-//    private static final Logger logger = LoggerFactory.getLogger(OwnerController.class);
 
     public OwnerController(DataSource dataSource) {
         super(dataSource);
@@ -71,24 +76,12 @@ public class OwnerController extends BaseController {
 
     @RequestMapping(value = "/new", method = RequestMethod.POST)
     public Map<String, Object> create(@Validated @RequestBody Owner owner) throws SQLException {
-        try (SqlAgent agent = createAgent()) {
-            Map<String, Object> result = new HashMap<>();
-
-            agent.required(() -> {
-                agent.insert(owner);
-                result.putAll(generatedKeys(agent));
-            });
-            return result;
-        }
+        return handleCreate(owner);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PATCH)
     public void update(@PathVariable("id") int id, @Validated @RequestBody Owner owner) throws SQLException {
-        try (SqlAgent agent = createAgent()) {
-            agent.required(() -> {
-                owner.setId(id);
-                agent.update(owner);
-            });
-        }
+        handleUpdate(id, owner);
     }
+
 }

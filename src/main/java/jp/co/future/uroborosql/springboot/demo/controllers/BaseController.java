@@ -4,15 +4,19 @@ import jp.co.future.uroborosql.SqlAgent;
 import jp.co.future.uroborosql.config.DefaultSqlConfig;
 import jp.co.future.uroborosql.config.SqlConfig;
 import jp.co.future.uroborosql.filter.DebugSqlFilter;
+import jp.co.future.uroborosql.springboot.demo.models.BaseModel;
 import jp.co.future.uroborosql.utils.CaseFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
- *  BaseController
+ * BaseController
+ *
+ * @author Kenichi Hoshi
  */
 public abstract class BaseController {
     private final DataSource dataSource;
@@ -24,6 +28,7 @@ public abstract class BaseController {
 
     /**
      * create <code>SqlAgent</code> instance.
+     *
      * @return <code>SqlAgent</code>
      */
     SqlAgent createAgent() {
@@ -41,6 +46,7 @@ public abstract class BaseController {
 
     /**
      * get generate keys.
+     *
      * @param agent SqlAgent
      * @return keys as {@literal Map<String, Object>}
      * @throws SQLException SQLException
@@ -49,5 +55,26 @@ public abstract class BaseController {
         return agent.queryWith("SELECT SCOPE_IDENTITY() AS ID")
             .collect(CaseFormat.CamelCase)
             .get(0);
+    }
+
+    protected Map<String, Object> handleCreate(BaseModel model) throws SQLException {
+        try (SqlAgent agent = createAgent()) {
+            Map<String, Object> result = new HashMap<>();
+
+            agent.required(() -> {
+                agent.insert(model);
+                result.putAll(generatedKeys(agent));
+            });
+            return result;
+        }
+    }
+
+    protected void handleUpdate(int id, BaseModel owner) throws SQLException {
+        try (SqlAgent agent = createAgent()) {
+            agent.required(() -> {
+                owner.setId(id);
+                agent.update(owner);
+            });
+        }
     }
 }

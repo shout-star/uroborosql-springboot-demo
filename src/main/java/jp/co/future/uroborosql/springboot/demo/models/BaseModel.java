@@ -2,6 +2,8 @@ package jp.co.future.uroborosql.springboot.demo.models;
 
 /**
  * BaseModel
+ *
+ * @author Kenichi Hoshi
  */
 public abstract class BaseModel {
 

@@ -8,6 +8,12 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
+/**
+ * Visit model
+ *
+ * @author Kenichi Hoshi
+ * @see jp.co.future.uroborosql.springboot.demo.models.BaseModel
+ */
 @Table(name = "VISITS")
 public class Visit extends BaseModel {
 

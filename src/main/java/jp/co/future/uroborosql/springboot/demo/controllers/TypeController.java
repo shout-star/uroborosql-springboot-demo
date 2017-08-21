@@ -12,6 +12,12 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * TypeController
+ *
+ * @author Kenichi Hoshi
+ * @see jp.co.future.uroborosql.springboot.demo.controllers.BaseController
+ */
 @RestController
 @CrossOrigin
 @RequestMapping("/api/types")

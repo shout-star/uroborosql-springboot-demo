@@ -9,6 +9,12 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * VetController
+ *
+ * @author Kenichi Hoshi
+ * @see jp.co.future.uroborosql.springboot.demo.controllers.BaseController
+ */
 @RestController
 @CrossOrigin
 @RequestMapping("/api/vets")
@@ -26,8 +32,9 @@ public class VetController extends BaseController {
         }
     }
 
-    @RequestMapping(value = { "/vets.json", "/vets.xml" })
-    public @ResponseBody List<Map<String, Object>> allByData() throws SQLException {
+    @RequestMapping(value = {"/vets.json", "/vets.xml"})
+    public @ResponseBody
+    List<Map<String, Object>> allByData() throws SQLException {
         return all();
     }
 }
