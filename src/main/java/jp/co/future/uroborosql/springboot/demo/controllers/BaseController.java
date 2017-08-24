@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -53,23 +52,20 @@ public abstract class BaseController {
      */
     Map<String, Object> generatedKeys(SqlAgent agent) throws SQLException {
         return agent.queryWith("SELECT SCOPE_IDENTITY() AS ID")
-            .collect(CaseFormat.CamelCase)
-            .get(0);
+                .collect(CaseFormat.CamelCase)
+                .get(0);
     }
 
-    protected Map<String, Object> handleCreate(BaseModel model) throws SQLException {
+    Map<String, Object> handleCreate(BaseModel model) throws SQLException {
         try (SqlAgent agent = createAgent()) {
-            Map<String, Object> result = new HashMap<>();
-
-            agent.required(() -> {
+            return agent.required(() -> {
                 agent.insert(model);
-                result.putAll(generatedKeys(agent));
+                return generatedKeys(agent);
             });
-            return result;
         }
     }
 
-    protected void handleUpdate(int id, BaseModel owner) throws SQLException {
+    void handleUpdate(int id, BaseModel owner) throws SQLException {
         try (SqlAgent agent = createAgent()) {
             agent.required(() -> {
                 owner.setId(id);
