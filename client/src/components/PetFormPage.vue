@@ -7,8 +7,8 @@
                 v-model="model.name" validate="required|max:30"></text-field>
     <date-picker id="birth_date" format="yyyy-MM-dd" label="Birth Date"
                  v-model="model.birthDate" validate="required"></date-picker>
-    <select-menu id="type" label="Type" fullwidth="true" :options="typeOptions"
-                 v-model.number="model.typeId"></select-menu>
+    <select-menu id="type" label="Type" :options="typeOptions"
+                 v-model.number="model.typeId" validate="required"></select-menu>
     <div class="save-owner">
       <ripple-button label="Cancel" mdcClass="mdc-button--accent" @click="onCancelClick"></ripple-button>
       <ripple-button label="Save" mdcClass="mdc-button--primary" @click="onOkClick"></ripple-button>
@@ -19,6 +19,7 @@
 
 <script>
   import axios from 'axios'
+  import BasePage from '@/components/BasePage'
   import TextField from '@/components/parts/TextField'
   import DatePicker from '@/components/parts/DatePicker'
   import RippleButton from '@/components/parts/RippleButton'
@@ -27,6 +28,9 @@
 
   export default {
     name: 'pet-form',
+    mixins: [
+      BasePage
+    ],
     components: {
       SelectMenu,
       TextField,
@@ -58,7 +62,7 @@
       axios.get('/api/types').then((response) => {
         vm.typeOptions = response.data
       }).catch((err) => {
-        vm.$router.push({name: 'error', params: {msg: err.message}})
+        vm.handleError(err)
       })
       axios.get('/api/owners/' + vm.$route.params.id).then((response) => {
         vm.model.ownerName = response.data.firstName + ' ' + response.data.lastName
@@ -66,12 +70,14 @@
           Object.assign(vm.model, response.data.pets.find(p => (p.id === parseInt(vm.$route.params.petId))))
         }
       }).catch((err) => {
-        vm.$router.push({name: 'error', params: {msg: err.message}})
+        vm.handleError(err)
       })
     },
     methods: {
       onOkClick () {
-        this.$refs.saveDialog.show()
+        if (!this.validate().any()) {
+          this.$refs.saveDialog.show()
+        }
       },
       onCancelClick () {
         this.$router.go(-1)
@@ -84,13 +90,13 @@
           axios.patch('/api/pets/' + vm.$route.params.petId, vm.model).then((response) => {
             vm.$router.push({name: 'owner-show', params: {id: vm.$route.params.id}})
           }).catch((err) => {
-            vm.$router.push({name: 'error', msg: err})
+            vm.handleError(err)
           })
         } else {
           axios.post('/api/pets/new', vm.model).then((response) => {
             vm.$router.push({name: 'owner-show', params: {id: vm.$route.params.id}})
           }).catch((err) => {
-            vm.$router.push({name: 'error', msg: err})
+            vm.handleError(err)
           })
         }
       }

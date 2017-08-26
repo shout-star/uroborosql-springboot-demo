@@ -6,8 +6,13 @@
 </template>
 
 <script>
+  import BasePage from '@/components/BasePage'
+
   export default {
     name: 'home',
+    mixins: [
+      BasePage
+    ],
     data () {
       return {}
     }

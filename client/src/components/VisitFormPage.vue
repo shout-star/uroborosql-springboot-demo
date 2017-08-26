@@ -53,6 +53,7 @@
 
 <script>
   import axios from 'axios'
+  import BasePage from '@/components/BasePage'
   import TextField from '@/components/parts/TextField'
   import DatePicker from '@/components/parts/DatePicker'
   import RippleButton from '@/components/parts/RippleButton'
@@ -60,6 +61,9 @@
 
   export default {
     name: 'visit-form',
+    mixins: [
+      BasePage
+    ],
     components: {
       TextField,
       DatePicker,
@@ -87,11 +91,11 @@
       let vm = this
 
       if (!isFinite(vm.$route.params.id)) {
-        vm.$router.push({name: 'error', params: {msg: 'Owner not found.'}})
+        vm.handleError('Owner not found.')
         return
       }
       if (!isFinite(vm.$route.params.petId)) {
-        vm.$router.push({name: 'error', params: {msg: 'Pet not found.'}})
+        vm.handleError('Pet not found.')
         return
       }
 
@@ -100,12 +104,14 @@
         vm.pet.owner = response.data
         Object.assign(vm.pet, response.data.pets.find(p => (p.id === vm.model.petId)))
       }).catch((err) => {
-        vm.$router.push({name: 'error', params: {msg: err.message}})
+        vm.handleError(err)
       })
     },
     methods: {
       onOkClick () {
-        this.$refs.saveDialog.show()
+        if (!this.validate().any()) {
+          this.$refs.saveDialog.show()
+        }
       },
       onCancelClick () {
         this.$router.go(-1)
@@ -117,7 +123,7 @@
         axios.post('/api/visits/new', vm.model).then((response) => {
           vm.$router.push({name: 'owner-show', params: {id: vm.$route.params.id}})
         }).catch((err) => {
-          vm.$router.push({name: 'error', msg: err.message})
+          vm.handleError(err)
         })
       }
     }

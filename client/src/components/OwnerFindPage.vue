@@ -36,11 +36,15 @@
 
 <script>
   import axios from 'axios'
+  import BasePage from '@/components/BasePage'
   import TextField from '@/components/parts/TextField'
   import RippleButton from '@/components/parts/RippleButton'
 
   export default {
     name: 'owner-find',
+    mixins: [
+      BasePage
+    ],
     components: {
       TextField,
       RippleButton
@@ -70,7 +74,7 @@
         }).then((response) => {
           vm.owners = response.data
         }).catch((err) => {
-          vm.$router.push({name: 'error', params: {msg: err.message}})
+          vm.handleError(err)
         })
       }
     }

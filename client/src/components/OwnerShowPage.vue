@@ -81,12 +81,16 @@
 
 <script>
   import axios from 'axios'
+  import BasePage from '@/components/BasePage'
   import TextField from '@/components/parts/TextField'
   import RippleButton from '@/components/parts/RippleButton'
   import RippleFab from '@/components/parts/RippleFab'
 
   export default {
     name: 'owner-show',
+    mixins: [
+      BasePage
+    ],
     components: {
       TextField,
       RippleButton,
@@ -108,7 +112,7 @@
       axios.get('/api/owners/' + vm.$route.params.id).then((response) => {
         vm.model = response.data
       }).catch((err) => {
-        vm.$router.push({name: 'error', params: {msg: err.message}})
+        vm.handleError(err)
       })
     },
     methods: {

@@ -20,6 +20,7 @@
 </template>
 
 <script>
+  import bus from '@/bus'
   import { textfield } from 'material-components-web'
 
   export default {
@@ -27,6 +28,9 @@
     props: ['id', 'type', 'label', 'required', 'value', 'autocomplete', 'minlength', 'maxlength', 'fullwidth', 'validate', 'disabled', 'readonly'],
     mounted () {
       textfield.MDCTextfield.attachTo(this.$el.querySelector('.mdc-textfield'))
+      this.$nextTick(() => {
+        bus.$emit('child-validator-added', this)
+      })
     },
     watch: {
       value (value) {

@@ -1,6 +1,7 @@
 package jp.co.future.uroborosql.springboot.demo.controllers;
 
 import jp.co.future.uroborosql.SqlAgent;
+import jp.co.future.uroborosql.springboot.demo.exceptions.NotFoundException;
 import jp.co.future.uroborosql.springboot.demo.models.Owner;
 import jp.co.future.uroborosql.utils.CaseFormat;
 import org.springframework.validation.annotation.Validated;
@@ -49,7 +50,7 @@ public class OwnerController extends BaseController {
                         .collect(CaseFormat.CamelCase)
                         .stream()
                         .findFirst()
-                        .orElseThrow(RuntimeException::new));//TODO: ちゃんと例外つくる
+                        .orElseThrow(NotFoundException::new));
                 List<Map<String, Object>> pets = agent.query("pets-find")
                     .param("ownerId", id)
                     .collect(CaseFormat.CamelCase);

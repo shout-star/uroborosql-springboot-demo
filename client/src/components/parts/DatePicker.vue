@@ -20,6 +20,7 @@
 
 <script>
   import { textfield } from 'material-components-web'
+  import bus from '@/bus'
   import Datepicker from 'vuejs-datepicker'
 
   export default {
@@ -37,6 +38,9 @@
             this.$refs.input.showCalendar()
           }
         }, 200)
+      })
+      this.$nextTick(() => {
+        bus.$emit('child-validator-added', this)
       })
     },
     data () {

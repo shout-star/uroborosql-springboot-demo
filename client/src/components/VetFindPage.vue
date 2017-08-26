@@ -26,9 +26,13 @@
 
 <script>
   import axios from 'axios'
+  import BasePage from '@/components/BasePage'
 
   export default {
     name: 'vet-find',
+    mixins: [
+      BasePage
+    ],
     components: {},
     data () {
       return {
@@ -41,7 +45,7 @@
       axios.get('/api/vets').then((response) => {
         vm.vets = response.data
       }).catch((err) => {
-        vm.$router.push({name: 'error', params: {msg: err.message}})
+        vm.handleError(err)
       })
     }
   }

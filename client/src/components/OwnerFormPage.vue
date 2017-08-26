@@ -22,12 +22,16 @@
 
 <script>
   import axios from 'axios'
+  import BasePage from '@/components/BasePage'
   import TextField from '@/components/parts/TextField'
   import RippleButton from '@/components/parts/RippleButton'
   import SaveDialog from '@/components/parts/SaveDialog'
 
   export default {
     name: 'owner-form',
+    mixins: [
+      BasePage
+    ],
     components: {
       TextField,
       RippleButton,
@@ -51,13 +55,15 @@
         axios.get('/api/owners/' + this.$route.params.id).then((response) => {
           Object.assign(vm.model, response.data)
         }).catch((err) => {
-          vm.$router.push({name: 'error', params: {msg: err.message}})
+          vm.handleError(err)
         })
       }
     },
     methods: {
       onOkClick () {
-        this.$refs.saveDialog.show()
+        if (!this.validate().any()) {
+          this.$refs.saveDialog.show()
+        }
       },
       onCancelClick () {
         this.$router.go(-1)
@@ -70,13 +76,13 @@
           axios.patch('/api/owners/' + vm.$route.params.id, vm.model).then((response) => {
             vm.$router.push({name: 'owner-show', params: {id: vm.$route.params.id}})
           }).catch((err) => {
-            vm.$router.push({name: 'error', msg: err.message})
+            vm.handleError(err)
           })
         } else {
           axios.post('/api/owners/new', vm.model).then((response) => {
             vm.$router.push({name: 'owner-show', params: {id: response.data.id}})
           }).catch((err) => {
-            vm.$router.push({name: 'error', msg: err.message})
+            vm.handleError(err)
           })
         }
       }

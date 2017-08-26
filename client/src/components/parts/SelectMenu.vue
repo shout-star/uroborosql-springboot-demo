@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div :id="id" :class="'mdc-select' + (fullwidth ? ' fullwidth' : '')" role="listbox" tabindex="0">
+    <div :class="'mdc-select' + (fullwidth ? ' fullwidth' : '')" role="listbox" tabindex="0">
       <span class="mdc-select__selected-text">{{chooseText}}</span>
       <div class="mdc-simple-menu mdc-select__menu">
         <ul class="mdc-list mdc-simple-menu__items">
@@ -15,12 +15,15 @@
       </div>
     </div>
     <label class="label" :for="id">{{label}}</label>
+    <input :name="id" type="hidden" v-validate="validate" v-model="state.value"/>
     <span v-show="errors.has(id)" class="help is-danger">{{ errors.first(id) }}</span>
   </div>
 </template>
 
 <script>
+  import bus from '@/bus'
   import { select } from 'material-components-web'
+
   let mdcSelect
 
   export default {
@@ -38,6 +41,9 @@
       mdcSelect.listen('MDCSelect:change', () => {
         this.state.value = mdcSelect.value
         this.updateValue(mdcSelect.value)
+      })
+      this.$nextTick(() => {
+        bus.$emit('child-validator-added', this)
       })
     },
     watch: {
@@ -64,7 +70,11 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .fullwidth {
-    width: 100%;
+    width: 100% !important;
+  }
+
+  .fullwidth .mdc-simple-menu {
+    width: 80% !important;
   }
 
   .label {
@@ -81,6 +91,8 @@
 
   .help.is-danger {
     color: #ff3860;
+    display: block;
     font-size: smaller;
+    margin-top: -15px;
   }
 </style>

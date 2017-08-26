@@ -50,10 +50,10 @@ public abstract class BaseController {
      * @return keys as {@literal Map<String, Object>}
      * @throws SQLException SQLException
      */
-    Map<String, Object> generatedKeys(SqlAgent agent) throws SQLException {
+    private Map<String, Object> generatedKeys(SqlAgent agent) throws SQLException {
         return agent.queryWith("SELECT SCOPE_IDENTITY() AS ID")
-                .collect(CaseFormat.CamelCase)
-                .get(0);
+            .collect(CaseFormat.CamelCase)
+            .get(0);
     }
 
     Map<String, Object> handleCreate(BaseModel model) throws SQLException {
