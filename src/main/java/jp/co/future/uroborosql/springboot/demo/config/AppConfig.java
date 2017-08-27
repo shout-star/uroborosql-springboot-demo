@@ -62,6 +62,8 @@ public class AppConfig {
                 resource.setProperty("factory", "org.apache.tomcat.jdbc.pool.DataSourceFactory");
                 resource.setProperty("driverClassName", driverClassName);
                 resource.setProperty("url", url);
+                resource.setProperty("username", username);
+                resource.setProperty("password", password);
 
                 context.getNamingResources().addResource(resource);
             }
