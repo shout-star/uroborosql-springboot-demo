@@ -10,4 +10,6 @@ spring:
       default-auto-commit: false
 server:
   port: 8090
+petclinic:
+  send-sqllog: true
 

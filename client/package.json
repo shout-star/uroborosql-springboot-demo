@@ -18,6 +18,8 @@
     "material-components-web": "^0.17.0",
     "material-design-icons": "^3.0.1",
     "moment": "^2.18.1",
+    "sockjs-client": "^1.1.4",
+    "stompjs": "^2.3.3",
     "v-tooltip": "^2.0.0-beta.8",
     "vee-validate": "^2.0.0-rc.12",
     "vue": "^2.3.3",

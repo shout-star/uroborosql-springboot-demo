@@ -70,7 +70,7 @@
       },
       onSave () {
         let vm = this
-        window.preLoader.show()
+        this.lockScreen()
 
         if (isFinite(vm.$route.params.id)) {
           axios.patch('/api/owners/' + vm.$route.params.id, vm.model).then((response) => {

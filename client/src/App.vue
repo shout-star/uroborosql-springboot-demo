@@ -59,6 +59,7 @@
       <router-view></router-view>
     </main>
     <footer>
+      <sql-log-frame ref="sqlLogFrame"></sql-log-frame>
     </footer>
   </div>
 </template>
@@ -66,9 +67,13 @@
 <script>
   import { drawer } from 'material-components-web'
   import PreLoader from './components/parts/PreLoader.vue'
+  import SqlLogFrame from './components/parts/SqlLogFrame.vue'
 
   export default {
-    components: {PreLoader},
+    components: {
+      PreLoader,
+      SqlLogFrame
+    },
     name: 'app',
     mounted () {
       this.$refs.preLoader.show()
@@ -125,6 +130,7 @@
     .mdc-toolbar__section--align-end {
       display: none;
     }
+
     .mdc-toolbar__icon--menu {
       display: inline-block;
     }

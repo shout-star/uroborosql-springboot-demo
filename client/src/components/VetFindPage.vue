@@ -18,8 +18,8 @@
     </div>
 
     <div class="view">
-      <a href="/vets.xml">View as XML</a>
-      <a href="/vets.json">View as JSON</a>
+      <a :href="host + '/vets.xml'" target="_blank">View as XML</a>
+      <a :href="host + '/vets.json'" target="_blank">View as JSON</a>
     </div>
   </div>
 </template>
@@ -36,7 +36,8 @@
     components: {},
     data () {
       return {
-        vets: []
+        vets: [],
+        host: location.protocol + '//' + (process.env.HOST || location.host)
       }
     },
     mounted () {

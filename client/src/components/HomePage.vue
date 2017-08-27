@@ -22,6 +22,10 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .top img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 700px;
     width: 100%;
   }
 </style>

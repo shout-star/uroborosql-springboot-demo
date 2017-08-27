@@ -2,7 +2,9 @@
 <configuration>
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
 
-    <logger name="jp.co.future.uroborosql.AbstractAgent" level="DEBUG" />
+    <appender name="SqlLogAppender" class="jp.co.future.uroborosql.springboot.demo.appenders.SqlLogAppender" />
+
+    <logger name="jp.co.future.uroborosql.AbstractAgent" level="TRACE" />
     <logger name="jp.co.future.uroborosql.SqlAgentImpl" level="DEBUG" />
     <logger name="jp.co.future.uroborosql.filter.DebugSqlFilter" level="DEBUG" />
 

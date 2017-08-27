@@ -30,6 +30,13 @@
       })
     },
     methods: {
+      lockScreen (show) {
+        if (show) {
+          window.preLoader.show()
+        } else {
+          window.preLoader.hide()
+        }
+      },
       handleError (err) {
         let vm = this
 

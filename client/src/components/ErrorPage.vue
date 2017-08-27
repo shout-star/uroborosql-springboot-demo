@@ -9,15 +9,20 @@
 </template>
 
 <script>
+  import BasePage from '@/components/BasePage'
+
   export default {
     name: 'error',
+    mixins: [
+      BasePage
+    ],
     data () {
       return {
         msg: ''
       }
     },
     mounted () {
-      window.preLoader.hide()
+      this.lockScreen(false)
       this.msg = this.$route.params.msg
     }
   }

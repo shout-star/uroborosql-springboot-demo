@@ -4,12 +4,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>jp.co.future.uroborosql.springboot</groupId>
-    <artifactId>demo</artifactId>
+    <artifactId>uroborosql-petclinic</artifactId>
     <version>0.1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>SpringBoot uroboroSQL</name>
-    <description>Demo project for Spring Boot &amp; uroboroSQL</description>
+    <description>uroboroSQL PetClinic</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -28,6 +28,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
 
         <dependency>

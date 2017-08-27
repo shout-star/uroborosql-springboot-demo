@@ -28,7 +28,7 @@
         this.shown = true
       },
       hide () {
-        setTimeout(() => (this.shown = false), 300)
+        setTimeout(() => (this.shown = false), 200)
       },
       toggle () {
         this.shown = !this.shown

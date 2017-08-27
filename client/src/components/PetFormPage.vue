@@ -84,7 +84,7 @@
       },
       onSave () {
         let vm = this
-        window.preLoader.show()
+        this.lockScreen()
 
         if (isFinite(vm.$route.params.petId)) {
           axios.patch('/api/pets/' + vm.$route.params.petId, vm.model).then((response) => {

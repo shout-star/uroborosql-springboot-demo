@@ -118,7 +118,7 @@
       },
       onSave () {
         let vm = this
-        window.preLoader.show()
+        this.lockScreen()
 
         axios.post('/api/visits/new', vm.model).then((response) => {
           vm.$router.push({name: 'owner-show', params: {id: vm.$route.params.id}})
