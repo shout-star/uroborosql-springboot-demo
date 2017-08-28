@@ -4,12 +4,11 @@ spring:
     username: sa
     password:
     driver-class-name: org.h2.Driver
-    name: jdbc/petclinic
-    jndi-name: jdbc/petclinic
     tomcat:
       default-auto-commit: false
 server:
   port: 8090
 petclinic:
   send-sqllog: true
+  db-auto-init: true
 
