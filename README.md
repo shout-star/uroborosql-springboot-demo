@@ -11,10 +11,18 @@ In order to have you learn how to use uroboroSQL, some functions are added.
 
 ## Running locally
 
+### From source
+
 ```
 $ git clone https://github.com/shout-star/uroborosql-springboot-demo
 $ cd uroborosql-springboot-demo
 $ ./mvnw spring-boot:run
+```
+
+### From releases
+
+```
+$ java -jar uroborosql-petclinic-0.1.0.jar
 ```
 
 You can then access petclinic here: http://localhost:8090/
