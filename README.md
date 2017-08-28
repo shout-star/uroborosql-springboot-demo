@@ -41,6 +41,14 @@ You can then access petclinic here: http://localhost:8091/
 In its default configuration, Petclinic uses an H2 database.
 
 ### Prepare database schema and initial data
+
+#### Auto
+
+If `petclinic.db-auto-init=true` is set,
+`setup/schema.sql` and `setup/data.sql` are executed at startup.
+
+#### Manual
+
 ```
 $ cd uroborosql-springboot-demo
 $ ./mvnw -PREPL

@@ -1,8 +1,13 @@
 package jp.co.future.uroborosql.springboot.demo.config;
 
+import jp.co.future.uroborosql.SqlAgent;
+import jp.co.future.uroborosql.config.DefaultSqlConfig;
+import jp.co.future.uroborosql.config.SqlConfig;
 import org.apache.catalina.Context;
 import org.apache.catalina.startup.Tomcat;
 import org.apache.tomcat.util.descriptor.web.ContextResource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory;
@@ -17,6 +22,7 @@ import org.springframework.jndi.JndiObjectFactoryBean;
 
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+import java.sql.SQLException;
 
 /**
  * Spring configuration
@@ -26,6 +32,9 @@ import javax.sql.DataSource;
 @Configuration
 @PropertySource("classpath:application.yml")
 public class AppConfig {
+
+    private static final Logger LOG = LoggerFactory.getLogger(AppConfig.class);
+
     @Value("${spring.datasource.name}")
     private String name;
 
@@ -44,6 +53,8 @@ public class AppConfig {
     @Value("${spring.datasource.jndi-name}")
     private String jndiName;
 
+    @Value("${petclinic.db-auto-init}")
+    private Boolean dbAutoInit;
 
     @Bean
     public EmbeddedServletContainerFactory servletContainer() {
@@ -83,11 +94,24 @@ public class AppConfig {
     public DataSource jndiDataSource() throws IllegalArgumentException, NamingException {
         JndiObjectFactoryBean bean = new JndiObjectFactoryBean();
         bean.setJndiName("java:comp/env/" + jndiName);
-//        System.out.println("java:comp/env/" + jndiName);
         bean.setProxyInterface(DataSource.class);
         bean.setLookupOnStartup(false);
         bean.afterPropertiesSet();
         return (DataSource) bean.getObject();
     }
 
+    @Bean
+    public String initDatabase(DataSource dataSource) throws SQLException {
+        if (dbAutoInit) {
+            SqlConfig config = DefaultSqlConfig.getConfig(dataSource.getConnection());
+            try (SqlAgent agent = config.createAgent()) {
+                agent.update("setup/schema").count();
+                agent.update("setup/data").count();
+            }
+            LOG.info("Complete database initialization.");
+        } else {
+            LOG.info("Skip database initialization.");
+        }
+        return null;
+    }
 }

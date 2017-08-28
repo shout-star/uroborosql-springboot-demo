@@ -12,4 +12,5 @@ server:
   port: 8090
 petclinic:
   send-sqllog: true
+  db-auto-init: true
 
