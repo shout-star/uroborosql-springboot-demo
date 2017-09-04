@@ -3,12 +3,19 @@
 
 <script>
   import bus from '@/bus'
+  import auth from '@/auth'
+  import TextField from '@/components/parts/TextField'
+  import RippleButton from '@/components/parts/RippleButton'
 
   export default {
     data () {
       return {
         childValidators: []
       }
+    },
+    components: {
+      TextField,
+      RippleButton
     },
     mounted () {
       bus.$on('child-validator-added', component => {
@@ -42,8 +49,15 @@
 
         if (typeof err === String) {
           vm.$router.push({name: 'error', params: {msg: err}})
+        } else if (err.response) {
+          if (err.response.status === 403) {
+            auth.removeAuthToken()
+            vm.$router.push({name: 'login'})
+          } else {
+            vm.$router.push({name: 'error', params: {msg: err.response.data.message}})
+          }
         } else {
-          vm.$router.push({name: 'error', params: {msg: err.response.data.message}})
+          vm.$router.push({name: 'error', params: {msg: err.message}})
         }
       },
       validate () {

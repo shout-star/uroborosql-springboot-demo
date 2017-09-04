@@ -4,7 +4,6 @@ import jp.co.future.uroborosql.springboot.demo.models.Pet;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.Map;
 
@@ -18,10 +17,6 @@ import java.util.Map;
 @CrossOrigin
 @RequestMapping("/api/pets")
 public class PetController extends BaseController {
-
-    public PetController(DataSource dataSource) {
-        super(dataSource);
-    }
 
     @RequestMapping(value = "/new", method = RequestMethod.POST)
     public Map<String, Object> create(@Validated @RequestBody Pet pet) throws SQLException {

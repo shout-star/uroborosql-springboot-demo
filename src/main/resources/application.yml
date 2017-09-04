@@ -11,4 +11,5 @@ server:
 petclinic:
   send-sqllog: true
   db-auto-init: true
+  jwt-secret-key: 61ce8046e3fab53138497a3a8593825548f2744d5bc4d529b5945fd4a4bd991a
 

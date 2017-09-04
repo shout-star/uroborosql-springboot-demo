@@ -2,6 +2,13 @@
 .right {
   float: right;
 }
+.button-area {
+  float: right;
+  margin-top: 30px;
+}
+.button-area button {
+  margin-left: 15px;
+}
 
 /* div table styles */
 div.table {

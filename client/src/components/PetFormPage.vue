@@ -9,7 +9,7 @@
                  v-model="model.birthDate" validate="required"></date-picker>
     <select-menu id="type" label="Type" :options="typeOptions"
                  v-model.number="model.typeId" validate="required"></select-menu>
-    <div class="save-owner">
+    <div class="button-area">
       <ripple-button label="Cancel" mdcClass="mdc-button--accent" @click="onCancelClick"></ripple-button>
       <ripple-button label="Save" mdcClass="mdc-button--primary" @click="onOkClick"></ripple-button>
     </div>
@@ -106,8 +106,4 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .save-owner {
-    margin-top: 30px;
-    float: right;
-  }
 </style>

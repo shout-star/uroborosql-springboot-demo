@@ -7,7 +7,6 @@ import jp.co.future.uroborosql.utils.CaseFormat;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -25,16 +24,12 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/owners")
 public class OwnerController extends BaseController {
 
-    public OwnerController(DataSource dataSource) {
-        super(dataSource);
-    }
-
     @RequestMapping(method = RequestMethod.GET)
     public List<Map<String, Object>> find(@RequestParam(required = false) String lastName) throws SQLException {
         try (SqlAgent agent = createAgent()) {
             return agent.query("owners-find")
                 .param("lastName", lastName)
-                .collect(CaseFormat.CamelCase);
+                .collect(CaseFormat.CAMEL_CASE);
         }
     }
 
@@ -47,17 +42,17 @@ public class OwnerController extends BaseController {
                 owner.putAll(
                     agent.query("owners-get")
                         .param("id", id)
-                        .collect(CaseFormat.CamelCase)
+                        .collect(CaseFormat.CAMEL_CASE)
                         .stream()
                         .findFirst()
                         .orElseThrow(NotFoundException::new));
                 List<Map<String, Object>> pets = agent.query("pets-find")
                     .param("ownerId", id)
-                    .collect(CaseFormat.CamelCase);
+                    .collect(CaseFormat.CAMEL_CASE);
                 if (!pets.isEmpty()) {
                     List<Map<String, Object>> visits = agent.query("visits-find")
                         .param("petId", pets.stream().mapToInt(p -> (int) p.get("id")).toArray())
-                        .collect(CaseFormat.CamelCase);
+                        .collect(CaseFormat.CAMEL_CASE);
 
                     pets.forEach(p -> {
                         List<Map<String, Object>> visitsByPet = visits.stream()
