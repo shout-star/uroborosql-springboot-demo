@@ -7,7 +7,6 @@ import jp.co.future.uroborosql.springboot.demo.models.Vets;
 import jp.co.future.uroborosql.utils.CaseFormat;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +23,7 @@ import static java.util.stream.Collectors.toList;
 public class VetController extends BaseController {
 
     @RequestMapping(value = "/api/vets", method = RequestMethod.GET)
-    public List<Map<String, Object>> all() throws SQLException {
+    public List<Map<String, Object>> all() {
         try (SqlAgent agent = createAgent()) {
             return agent.query("vets-all")
                 .collect(CaseFormat.CAMEL_CASE);
@@ -33,7 +32,7 @@ public class VetController extends BaseController {
 
     @RequestMapping(value = {"/vets.json", "/vets.xml"})
     public @ResponseBody
-    Vets allByData() throws SQLException {
+    Vets allByData() {
         try (SqlAgent agent = createAgent()) {
             return agent.required(() -> new Vets(
                 agent.query("vets-all")

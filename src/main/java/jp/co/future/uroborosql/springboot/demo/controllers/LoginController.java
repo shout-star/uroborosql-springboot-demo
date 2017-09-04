@@ -15,7 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Date;
@@ -38,7 +37,7 @@ public class LoginController extends BaseController {
     private String secretKey;
 
     @RequestMapping(value = "/api/login", method = RequestMethod.POST)
-    public ResponseEntity<?> login(@Validated @RequestBody Login login) throws SQLException {
+    public ResponseEntity<?> login(@Validated @RequestBody Login login) {
         EntityResultSetConverter<User> converter = new EntityResultSetConverter<>(User.class, new PropertyMapperManager());
         User user;
 

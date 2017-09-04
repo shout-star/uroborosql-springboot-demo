@@ -23,7 +23,7 @@ import java.util.Map;
 public class TypeController extends BaseController {
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Map<String, Object>> all() throws SQLException {
+    public List<Map<String, Object>> all() {
         try (SqlAgent agent = createAgent()) {
             return agent.query("types-all")
                 .collect(CaseFormat.CAMEL_CASE);

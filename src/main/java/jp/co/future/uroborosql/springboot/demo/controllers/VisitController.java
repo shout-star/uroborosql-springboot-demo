@@ -4,7 +4,6 @@ import jp.co.future.uroborosql.springboot.demo.models.Visit;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLException;
 import java.util.Map;
 
 /**
@@ -19,7 +18,7 @@ import java.util.Map;
 public class VisitController extends BaseController {
 
     @RequestMapping(value = "/new", method = RequestMethod.POST)
-    public Map<String, Object> create(@Validated @RequestBody Visit visit) throws SQLException {
+    public Map<String, Object> create(@Validated @RequestBody Visit visit) {
         return handleCreate(visit);
     }
 

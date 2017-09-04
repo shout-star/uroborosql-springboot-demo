@@ -7,7 +7,6 @@ import jp.co.future.uroborosql.utils.CaseFormat;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +24,7 @@ import java.util.stream.Collectors;
 public class OwnerController extends BaseController {
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Map<String, Object>> find(@RequestParam(required = false) String lastName) throws SQLException {
+    public List<Map<String, Object>> find(@RequestParam(required = false) String lastName) {
         try (SqlAgent agent = createAgent()) {
             return agent.query("owners-find")
                 .param("lastName", lastName)
@@ -34,7 +33,7 @@ public class OwnerController extends BaseController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Map<String, Object> get(@PathVariable("id") int id) throws SQLException {
+    public Map<String, Object> get(@PathVariable("id") int id) {
         try (SqlAgent agent = createAgent()) {
             Map<String, Object> owner = new HashMap<>();
 
@@ -71,12 +70,12 @@ public class OwnerController extends BaseController {
 
 
     @RequestMapping(value = "/new", method = RequestMethod.POST)
-    public Map<String, Object> create(@Validated @RequestBody Owner owner) throws SQLException {
+    public Map<String, Object> create(@Validated @RequestBody Owner owner) {
         return handleCreate(owner);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PATCH)
-    public void update(@PathVariable("id") int id, @Validated @RequestBody Owner owner) throws SQLException {
+    public void update(@PathVariable("id") int id, @Validated @RequestBody Owner owner) {
         handleUpdate(id, owner);
     }
 
