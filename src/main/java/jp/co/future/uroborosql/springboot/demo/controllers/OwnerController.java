@@ -1,7 +1,7 @@
 package jp.co.future.uroborosql.springboot.demo.controllers;
 
 import jp.co.future.uroborosql.SqlAgent;
-import jp.co.future.uroborosql.springboot.demo.exceptions.NotFoundException;
+import jp.co.future.uroborosql.springboot.demo.common.exceptions.NotFoundException;
 import jp.co.future.uroborosql.springboot.demo.models.Owner;
 import jp.co.future.uroborosql.utils.CaseFormat;
 import org.springframework.validation.annotation.Validated;

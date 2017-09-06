@@ -2,8 +2,7 @@ package jp.co.future.uroborosql.springboot.demo.controllers;
 
 import jp.co.future.uroborosql.SqlAgent;
 import jp.co.future.uroborosql.config.SqlConfig;
-import jp.co.future.uroborosql.filter.DebugSqlFilter;
-import jp.co.future.uroborosql.springboot.demo.context.AuthContext;
+import jp.co.future.uroborosql.springboot.demo.common.context.AuthContext;
 import jp.co.future.uroborosql.springboot.demo.models.BaseModel;
 import jp.co.future.uroborosql.utils.CaseFormat;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +25,6 @@ public abstract class BaseController {
      * @return <code>SqlAgent</code>
      */
     SqlAgent createAgent() {
-        sqlConfig.getSqlFilterManager().addSqlFilter(new DebugSqlFilter());
-        sqlConfig.getSqlFilterManager().initialize();
-
         return sqlConfig.createAgent();
     }
 

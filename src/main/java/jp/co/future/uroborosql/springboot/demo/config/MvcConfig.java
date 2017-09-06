@@ -1,8 +1,8 @@
 package jp.co.future.uroborosql.springboot.demo.config;
 
 
-import jp.co.future.uroborosql.springboot.demo.interceptors.AuthInterceptor;
-import jp.co.future.uroborosql.springboot.demo.interceptors.LoggingInterceptor;
+import jp.co.future.uroborosql.springboot.demo.common.interceptors.AuthInterceptor;
+import jp.co.future.uroborosql.springboot.demo.common.interceptors.LoggingInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;

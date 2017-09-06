@@ -1,10 +1,9 @@
-package jp.co.future.uroborosql.springboot.demo.interceptors;
+package jp.co.future.uroborosql.springboot.demo.common.interceptors;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureException;
-import jp.co.future.uroborosql.springboot.demo.context.AuthContext;
+import jp.co.future.uroborosql.springboot.demo.common.context.AuthContext;
+import jp.co.future.uroborosql.springboot.demo.common.exceptions.JwtAuthException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,8 +33,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 
         if (!"OPTIONS".equals(request.getMethod())) {
             if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                return false;
+                throw new JwtAuthException();
             }
 
             String token = authHeader.substring(7);
@@ -46,9 +44,9 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
                     .parseClaimsJws(token)
                     .getBody();
                 AuthContext.addClaims(claims);
-            } catch (SignatureException | ExpiredJwtException e) {
-                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                return false;
+            } catch (Exception e) {
+                LOG.error("JWT parse error.", e);
+                throw new JwtAuthException(e);
             }
         }
 

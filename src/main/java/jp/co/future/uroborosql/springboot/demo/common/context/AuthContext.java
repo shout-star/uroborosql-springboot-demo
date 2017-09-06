@@ -1,4 +1,4 @@
-package jp.co.future.uroborosql.springboot.demo.context;
+package jp.co.future.uroborosql.springboot.demo.common.context;
 
 import io.jsonwebtoken.Claims;
 

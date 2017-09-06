@@ -15,9 +15,9 @@ const auth = new Vue({
       this.setAuthToken(window.localStorage.token)
     },
     setAuthToken (token) {
-      window.localStorage.token = token
+      window.localStorage.token = token || ''
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + window.localStorage.token
-      this.state.loggedin = !!token
+      this.state.loggedin = !!window.localStorage.token
     },
     removeAuthToken () {
       window.localStorage.token = ''

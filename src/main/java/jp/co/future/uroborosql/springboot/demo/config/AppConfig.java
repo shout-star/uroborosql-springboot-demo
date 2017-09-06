@@ -3,6 +3,7 @@ package jp.co.future.uroborosql.springboot.demo.config;
 import jp.co.future.uroborosql.SqlAgent;
 import jp.co.future.uroborosql.config.DefaultSqlConfig;
 import jp.co.future.uroborosql.config.SqlConfig;
+import jp.co.future.uroborosql.filter.DebugSqlFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -71,7 +72,10 @@ public class AppConfig {
 
     @Bean
     public SqlConfig sqlConfig(DataSource dataSource) {
-        return DefaultSqlConfig.getConfig(dataSource);
+        SqlConfig sqlConfig = DefaultSqlConfig.getConfig(dataSource);
+        sqlConfig.getSqlFilterManager().addSqlFilter(new DebugSqlFilter());
+        sqlConfig.getSqlFilterManager().initialize();
+        return sqlConfig;
     }
 
     @Bean

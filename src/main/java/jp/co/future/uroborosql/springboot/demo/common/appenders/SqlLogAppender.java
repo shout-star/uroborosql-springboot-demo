@@ -1,4 +1,4 @@
-package jp.co.future.uroborosql.springboot.demo.appenders;
+package jp.co.future.uroborosql.springboot.demo.common.appenders;
 
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.spi.ILoggingEvent;
