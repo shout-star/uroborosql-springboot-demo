@@ -22,7 +22,7 @@ $ ./mvnw spring-boot:run
 ### From releases
 
 ```
-$ java -jar uroborosql-petclinic-0.1.0.jar
+$ java -jar uroborosql-petclinic-0.2.0.jar
 ```
 
 You can then access petclinic here: http://localhost:8090/
