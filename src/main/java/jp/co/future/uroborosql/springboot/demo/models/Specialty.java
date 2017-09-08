@@ -18,11 +18,6 @@ public class Specialty extends BaseModel {
     @Size(max = 30)
     private String name;
 
-    public Specialty(int id, String name) {
-        this.setId(id);
-        this.setName(name);
-    }
-
     public String getName() {
         return name;
     }
