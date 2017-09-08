@@ -1,4 +1,4 @@
-package jp.co.future.uroborosql.springboot.demo.exceptions;
+package jp.co.future.uroborosql.springboot.demo.common.exceptions;
 
 /**
  * UnexpectedException

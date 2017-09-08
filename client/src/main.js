@@ -12,6 +12,9 @@ import router from './router'
 import axios from 'axios'
 
 axios.defaults.baseURL = process.env.BASE_URL
+if (window.localStorage.token) {
+  axios.defaults.headers.common['Authorization'] = 'Bearer ' + window.localStorage.token
+}
 
 Vue.config.productionTip = false
 Vue.use(VeeValidate)

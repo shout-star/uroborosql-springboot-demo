@@ -1,15 +1,14 @@
 package jp.co.future.uroborosql.springboot.demo.controllers;
 
 import jp.co.future.uroborosql.SqlAgent;
-import jp.co.future.uroborosql.config.DefaultSqlConfig;
 import jp.co.future.uroborosql.config.SqlConfig;
-import jp.co.future.uroborosql.filter.DebugSqlFilter;
+import jp.co.future.uroborosql.springboot.demo.common.context.AuthContext;
 import jp.co.future.uroborosql.springboot.demo.models.BaseModel;
 import jp.co.future.uroborosql.utils.CaseFormat;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
-import javax.sql.DataSource;
-import java.sql.SQLException;
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -18,12 +17,11 @@ import java.util.Map;
  * @author Kenichi Hoshi
  */
 public abstract class BaseController {
-    private final DataSource dataSource;
-
     @Autowired
-    public BaseController(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
+    private SqlConfig sqlConfig;
+
+    @Value("${petclinic.enabled-auth}")
+    private boolean enabledAuth;
 
     /**
      * create <code>SqlAgent</code> instance.
@@ -31,16 +29,7 @@ public abstract class BaseController {
      * @return <code>SqlAgent</code>
      */
     SqlAgent createAgent() {
-        try {
-            SqlConfig config = DefaultSqlConfig.getConfig(dataSource.getConnection());
-
-            config.getSqlFilterManager().addSqlFilter(new DebugSqlFilter());
-            config.getSqlFilterManager().initialize();
-
-            return config.createAgent();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        return sqlConfig.createAgent();
     }
 
     /**
@@ -48,29 +37,49 @@ public abstract class BaseController {
      *
      * @param agent SqlAgent
      * @return keys as {@literal Map<String, Object>}
-     * @throws SQLException SQLException
      */
-    private Map<String, Object> generatedKeys(SqlAgent agent) throws SQLException {
+    private Map<String, Object> generatedKeys(SqlAgent agent) {
         return agent.queryWith("SELECT SCOPE_IDENTITY() AS ID")
-            .collect(CaseFormat.CamelCase)
+            .collect(CaseFormat.CAMEL_CASE)
             .get(0);
     }
 
-    Map<String, Object> handleCreate(BaseModel model) throws SQLException {
+    Map<String, Object> handleCreate(BaseModel model) {
+        Integer userId = getCurrentUserId();
         try (SqlAgent agent = createAgent()) {
             return agent.required(() -> {
+                model.setCreatorId(userId);
+                model.setUpdaterId(userId);
+                model.setCreatedAt(new Date());
+                model.setUpdatedAt(new Date());
                 agent.insert(model);
                 return generatedKeys(agent);
             });
         }
     }
 
-    void handleUpdate(int id, BaseModel owner) throws SQLException {
+    int handleUpdate(int id, BaseModel model) {
+        Integer userId = getCurrentUserId();
         try (SqlAgent agent = createAgent()) {
-            agent.required(() -> {
-                owner.setId(id);
-                agent.update(owner);
+            return agent.required(() -> {
+                model.setId(id);
+                model.setUpdaterId(userId);
+                model.setUpdatedAt(new Date());
+                return agent.update(model);
             });
         }
     }
+
+    /**
+     * get current user id.
+     *
+     * @return user id
+     */
+    private Integer getCurrentUserId() {
+        if (enabledAuth) {
+            return Integer.parseInt(String.valueOf(AuthContext.getClaims().get("userId")));
+        }
+        return null;
+    }
+
 }

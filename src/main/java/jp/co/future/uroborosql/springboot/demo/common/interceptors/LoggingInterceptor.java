@@ -1,4 +1,4 @@
-package jp.co.future.uroborosql.springboot.demo.interceptors;
+package jp.co.future.uroborosql.springboot.demo.common.interceptors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

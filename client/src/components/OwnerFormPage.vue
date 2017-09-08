@@ -12,7 +12,7 @@
     <text-field id="telephone" fullwidth="true" label="Telephone"
                 v-model="model.telephone" validate="required|digits:10"
                 maxlength="10"></text-field>
-    <div class="save-owner">
+    <div class="button-area">
       <ripple-button label="Cancel" mdcClass="mdc-button--accent" @click="onCancelClick"></ripple-button>
       <ripple-button label="Save" mdcClass="mdc-button--primary" @click="onOkClick"></ripple-button>
     </div>
@@ -92,8 +92,4 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .save-owner {
-    margin-top: 30px;
-    float: right;
-  }
 </style>

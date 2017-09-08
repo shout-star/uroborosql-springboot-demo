@@ -28,6 +28,10 @@
             <span class="material-icons" aria-label="Error" alt="Error" v-tooltip="'Error'">warning</span>
             <span class="menu-text">Error</span>
           </router-link>
+          <a href="#" class="mdc-toolbar__icon" @click="onLogoutClick" v-if="loggedin">
+            <span class="material-icons" aria-label="Logout" alt="Logout" v-tooltip="'Logout'">exit_to_app</span>
+            <span class="menu-text">Logout</span>
+          </a>
         </section>
       </div>
       <aside class="mdc-temporary-drawer mdc-typography">
@@ -50,6 +54,9 @@
             <router-link class="mdc-list-item" to="/oups">
               <i class="material-icons mdc-list-item__start-detail" aria-hidden="true">warning</i>Error
             </router-link>
+            <a href="#" class="mdc-list-item" @click="onLogoutClick" v-if="loggedin">
+              <i class="material-icons mdc-list-item__start-detail" aria-hidden="true">exit_to_app</i>Logout
+            </a>
           </nav>
         </nav>
       </aside>
@@ -66,20 +73,34 @@
 
 <script>
   import { drawer } from 'material-components-web'
+  import auth from '@/auth'
   import PreLoader from './components/parts/PreLoader.vue'
   import SqlLogFrame from './components/parts/SqlLogFrame.vue'
 
   export default {
+    name: 'app',
     components: {
       PreLoader,
       SqlLogFrame
     },
-    name: 'app',
     mounted () {
       this.$refs.preLoader.show()
       setTimeout(() => (this.$refs.preLoader.hide()), 500)
       let mdcDrawer = new drawer.MDCTemporaryDrawer(document.querySelector('.mdc-temporary-drawer'))
       this.$el.querySelector('.mdc-toolbar__icon--menu').addEventListener('click', () => (mdcDrawer.open = true))
+      auth.init()
+    },
+    methods: {
+      onLogoutClick () {
+        auth.removeAuthToken()
+        this.$router.push({name: 'home'})
+        return false
+      }
+    },
+    computed: {
+      loggedin () {
+        return auth.loggedin()
+      }
     }
   }
 </script>
@@ -110,6 +131,10 @@
   .mdc-temporary-drawer__header {
     background-color: var(--mdc-theme-primary, #3f51b5);
     height: 80px;
+  }
+
+  .menu-text {
+    white-space: nowrap;
   }
 
   /* for tablet */

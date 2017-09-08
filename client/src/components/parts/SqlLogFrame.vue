@@ -40,7 +40,10 @@
     methods: {
       append (msg) {
         msg.split(`\n`).forEach(m => this.logs.push(m))
-        setTimeout(() => (this.$el.scrollTop = this.$el.scrollHeight), 200)
+        setTimeout(() => {
+          let frame = this.$el.querySelector('.sql-log-frame')
+          frame.scrollTop = frame.scrollHeight
+        }, 200)
       },
       connect () {
         let vm = this
@@ -81,7 +84,7 @@
   }
 
   li {
-    font-size: 12px;
+    font-size: 13px;
     line-height: 0.5em;
   }
 

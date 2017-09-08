@@ -1,9 +1,10 @@
-package jp.co.future.uroborosql.springboot.demo.appenders;
+package jp.co.future.uroborosql.springboot.demo.common.appenders;
 
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.AppenderBase;
 import ch.qos.logback.core.Layout;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,18 +15,24 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Stream;
 
+/**
+ * SqlLogAppender
+ *
+ * @author Kenichi Hoshi
+ */
 @Component
 @EnableAutoConfiguration
 public class SqlLogAppender extends AppenderBase<ILoggingEvent> {
+    private static final Logger LOG = LoggerFactory.getLogger(SqlLogAppender.class);
+
     @Value("${petclinic.send-sqllog}")
     private Boolean sendSqllog;
 
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
 
-    protected Layout<ILoggingEvent> layout;
+    private Layout<ILoggingEvent> layout;
 
     public void setLayout(final Layout<ILoggingEvent> layout) {
         this.layout = layout;
@@ -38,7 +45,7 @@ public class SqlLogAppender extends AppenderBase<ILoggingEvent> {
 
     @PostConstruct
     public void init() {
-        System.out.println("send sqllog > " + sendSqllog);
+        LOG.info("Send SQL log: " + sendSqllog);
         if (!sendSqllog) {
             return;
         }
