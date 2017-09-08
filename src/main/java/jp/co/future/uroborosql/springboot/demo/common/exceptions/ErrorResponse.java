@@ -2,10 +2,27 @@ package jp.co.future.uroborosql.springboot.demo.common.exceptions;
 
 import org.springframework.http.HttpStatus;
 
+/**
+ * ErrorResponse
+ *
+ * @author Kenichi Hoshi
+ */
 public class ErrorResponse {
+    /**
+     * error type
+     */
     private String error;
+    /**
+     * error message
+     */
     private String message;
+    /**
+     * http status
+     */
     private int status;
+    /**
+     * issue time
+     */
     private long timestamp;
 
     private ErrorResponse(String error, String message, int status) {
@@ -16,7 +33,7 @@ public class ErrorResponse {
     }
 
     public static ErrorResponse of(HttpStatus httpStatus, String message) {
-        return new ErrorResponse(httpStatus.getReasonPhrase(), message, httpStatus.value()) ;
+        return new ErrorResponse(httpStatus.getReasonPhrase(), message, httpStatus.value());
     }
 
     public static ErrorResponse of(String error, String message, int status) {

@@ -29,7 +29,7 @@ public class DefaultExceptionHandler {
     public ResponseEntity<?> unhandledException(Exception e, HttpServletRequest req) {
         LOG.error("unhandled exception", e);
         return new ResponseEntity<>(
-            new HashMap<>()
-            , HttpStatus.INTERNAL_SERVER_ERROR);
+            new HashMap<>(),
+            HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

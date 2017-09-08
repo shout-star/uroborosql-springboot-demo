@@ -6,6 +6,7 @@ import jp.co.future.uroborosql.springboot.demo.common.context.AuthContext;
 import jp.co.future.uroborosql.springboot.demo.models.BaseModel;
 import jp.co.future.uroborosql.utils.CaseFormat;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Date;
 import java.util.Map;
@@ -18,6 +19,9 @@ import java.util.Map;
 public abstract class BaseController {
     @Autowired
     private SqlConfig sqlConfig;
+
+    @Value("${petclinic.enabled-auth}")
+    private boolean enabledAuth;
 
     /**
      * create <code>SqlAgent</code> instance.
@@ -41,7 +45,7 @@ public abstract class BaseController {
     }
 
     Map<String, Object> handleCreate(BaseModel model) {
-        int userId = getCurrentUserId();
+        Integer userId = getCurrentUserId();
         try (SqlAgent agent = createAgent()) {
             return agent.required(() -> {
                 model.setCreatorId(userId);
@@ -55,7 +59,7 @@ public abstract class BaseController {
     }
 
     int handleUpdate(int id, BaseModel model) {
-        int userId = getCurrentUserId();
+        Integer userId = getCurrentUserId();
         try (SqlAgent agent = createAgent()) {
             return agent.required(() -> {
                 model.setId(id);
@@ -71,8 +75,11 @@ public abstract class BaseController {
      *
      * @return user id
      */
-    private int getCurrentUserId() {
-        return Integer.parseInt(String.valueOf(AuthContext.getClaims().get("userId")));
+    private Integer getCurrentUserId() {
+        if (enabledAuth) {
+            return Integer.parseInt(String.valueOf(AuthContext.getClaims().get("userId")));
+        }
+        return null;
     }
 
 }

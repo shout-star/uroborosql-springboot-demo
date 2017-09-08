@@ -4,6 +4,7 @@ package jp.co.future.uroborosql.springboot.demo.config;
 import jp.co.future.uroborosql.springboot.demo.common.interceptors.AuthInterceptor;
 import jp.co.future.uroborosql.springboot.demo.common.interceptors.LoggingInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -17,6 +18,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @Configuration
 public class MvcConfig extends WebMvcConfigurerAdapter {
 
+    @Value("${petclinic.enabled-auth}")
+    private boolean enabledAuth;
+
     @Autowired
     private LoggingInterceptor loggingInterceptor;
 
@@ -27,9 +31,12 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loggingInterceptor)
             .addPathPatterns("/**");
-        registry.addInterceptor(authInterceptor)
-            .addPathPatterns("/api/**")
-            .excludePathPatterns("/api/login");
+        if (enabledAuth) {
+            registry.addInterceptor(authInterceptor)
+                .addPathPatterns("/api/**")
+                .excludePathPatterns("/api/login");
+
+        }
     }
 
 }

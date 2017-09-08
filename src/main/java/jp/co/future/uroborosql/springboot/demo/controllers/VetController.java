@@ -36,18 +36,11 @@ public class VetController extends BaseController {
         try (SqlAgent agent = createAgent()) {
             return agent.required(() -> new Vets(
                 agent.query("vets-all")
-                    .stream(rs -> new Vet(
-                        rs.getInt("ID"),
-                        rs.getString("FIRST_NAME"),
-                        rs.getString("LAST_NAME")
-                    ))
+                    .stream(Vet.class)
                     .peek(v -> v.setSpecialties(
                         agent.query("specialties-by-vets")
                             .param("id", v.getId())
-                            .stream(rs -> new Specialty(
-                                rs.getInt("ID"),
-                                rs.getString("NAME")
-                            ))
+                            .stream(Specialty.class)
                             .collect(toList())
                     )).collect(toList())
             ));
